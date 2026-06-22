@@ -1,39 +1,182 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('password.store') }}">
-        @csrf
+@extends('layouts.guest')
 
-        <!-- Password Reset Token -->
-        <input type="hidden" name="token" value="{{ $request->route('token') }}">
+@section('content')
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+<div class="auth-page">
+
+    <!-- LEFT SIDE -->
+
+    <div class="auth-left">
+
+        <div class="auth-overlay"></div>
+
+        <div class="auth-content">
+
+            <div class="auth-badge">
+           
+
+                <a href="{{ url('/') }}" class="home-btn">
+
+                    <span>
+
+                          🔑 Password Recovery
+
+                    </span>
+
+                </a>
+            </div>
+
+            <h1>
+
+                Create Your
+                New Password
+
+            </h1>
+
+            <p>
+
+                Your account security is important.
+                Choose a strong password to continue
+                your internship journey safely.
+
+            </p>
+
+            <div class="auth-stats">
+
+                <div>
+                    <h3>256-bit</h3>
+                    <span>Security</span>
+                </div>
+
+                <div>
+                    <h3>100%</h3>
+                    <span>Protected</span>
+                </div>
+
+                <div>
+                    <h3>24/7</h3>
+                    <span>Access</span>
+                </div>
+
+            </div>
+
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+    </div>
+
+    <!-- RIGHT SIDE -->
+
+    <div class="auth-right">
+
+        <div class="login-card">
+
+            <div class="login-header">
+
+                <h2>Reset Password</h2>
+
+                <p>
+
+                    Enter your new password below
+                    to regain access to your account.
+
+                </p>
+
+            </div>
+
+            <form method="POST"
+                  action="{{ route('password.store') }}">
+
+                @csrf
+
+                <!-- TOKEN -->
+
+                <input type="hidden"
+                       name="token"
+                       value="{{ $request->route('token') }}">
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label>Email Address</label>
+
+                    <input type="email"
+                           name="email"
+                           value="{{ old('email', $request->email) }}"
+                           class="form-control"
+                           readonly>
+
+                    @error('email')
+                        <div class="text-danger mt-2">
+                            {{ $message }}
+                        </div>
+                    @enderror
+
+                </div>
+
+                <!-- PASSWORD -->
+
+                <div class="form-group mt-4">
+
+                    <label>New Password</label>
+
+                    <input type="password"
+                           name="password"
+                           class="form-control"
+                           placeholder="Enter new password"
+                           required>
+
+                    @error('password')
+                        <div class="text-danger mt-2">
+                            {{ $message }}
+                        </div>
+                    @enderror
+
+                </div>
+
+                <!-- CONFIRM PASSWORD -->
+
+                <div class="form-group mt-4">
+
+                    <label>Confirm Password</label>
+
+                    <input type="password"
+                           name="password_confirmation"
+                           class="form-control"
+                           placeholder="Confirm new password"
+                           required>
+
+                    @error('password_confirmation')
+                        <div class="text-danger mt-2">
+                            {{ $message }}
+                        </div>
+                    @enderror
+
+                </div>
+
+                <button type="submit"
+                        class="login-btn mt-4">
+
+                    Reset Password
+
+                </button>
+
+                <div class="register-link">
+
+                    Remembered your password?
+
+                    <a href="{{ route('login') }}">
+                        Back to Login
+                    </a>
+
+                </div>
+
+            </form>
+
         </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+    </div>
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required autocomplete="new-password" />
+</div>
 
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Reset Password') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+@endsection

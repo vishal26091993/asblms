@@ -1,52 +1,193 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+@extends('layouts.guest')
 
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+@section('content')
+
+<div class="auth-page">
+
+    <!-- LEFT SIDE -->
+
+    <div class="auth-left">
+
+        <div class="auth-overlay"></div>
+
+        <div class="auth-content">
+
+
+            <div class="auth-badge">
+           
+
+                <a href="{{ url('/') }}" class="home-btn">
+
+                    <span>
+
+                          🎓 ASB InternSphere
+
+                    </span>
+
+                </a>
+            </div>
+
+            <h1>
+
+                Start Your
+                Internship Journey
+
+            </h1>
+
+            <p>
+
+                Join thousands of students building
+                real-world skills, completing projects,
+                and preparing for successful careers.
+
+            </p>
+
+            <div class="auth-stats">
+
+                <div>
+                    <h3>5000+</h3>
+                    <span>Students</span>
+                </div>
+
+                <div>
+                    <h3>150+</h3>
+                    <span>Mentors</span>
+                </div>
+
+                <div>
+                    <h3>50+</h3>
+                    <span>Partner Companies</span>
+                </div>
+
+            </div>
+
         </div>
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+    </div>
+
+    <!-- RIGHT SIDE -->
+
+    <div class="auth-right">
+
+        <div class="login-card">
+
+            <div class="login-header">
+
+                <h2>Create Account</h2>
+
+                <p>
+                    Register to begin your internship
+                    experience with ASB InternSphere
+                </p>
+
+            </div>
+
+            <form method="POST"
+                  action="{{ route('register') }}">
+
+                @csrf
+
+                <!-- Name -->
+
+                <div class="form-group">
+
+                    <label>Full Name</label>
+
+                    <input type="text"
+                           name="name"
+                           value="{{ old('name') }}"
+                           class="form-control"
+                           placeholder="Enter full name"
+                           required>
+
+                    @error('name')
+                        <div class="text-danger mt-2">
+                            {{ $message }}
+                        </div>
+                    @enderror
+
+                </div>
+
+                <!-- Email -->
+
+                <div class="form-group mt-4">
+
+                    <label>Email Address</label>
+
+                    <input type="email"
+                           name="email"
+                           value="{{ old('email') }}"
+                           class="form-control"
+                           placeholder="Enter email address"
+                           required>
+
+                    @error('email')
+                        <div class="text-danger mt-2">
+                            {{ $message }}
+                        </div>
+                    @enderror
+
+                </div>
+
+                <!-- Password -->
+
+                <div class="form-group mt-4">
+
+                    <label>Password</label>
+
+                    <input type="password"
+                           name="password"
+                           class="form-control"
+                           placeholder="Create password"
+                           required>
+
+                    @error('password')
+                        <div class="text-danger mt-2">
+                            {{ $message }}
+                        </div>
+                    @enderror
+
+                </div>
+
+                <!-- Confirm Password -->
+
+                <div class="form-group mt-4">
+
+                    <label>Confirm Password</label>
+
+                    <input type="password"
+                           name="password_confirmation"
+                           class="form-control"
+                           placeholder="Confirm password"
+                           required>
+
+                </div>
+
+                <button type="submit"
+                        class="login-btn mt-4">
+
+                    Create Account
+
+                </button>
+
+                <div class="register-link">
+
+                    Already have an account?
+
+                    <a href="{{ route('login') }}">
+
+                        Login
+
+                    </a>
+
+                </div>
+
+            </form>
+
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+    </div>
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
+</div>
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+@endsection

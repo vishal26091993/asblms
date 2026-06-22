@@ -1,31 +1,156 @@
-<x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
-    </div>
+@extends('layouts.guest')
 
-    @if (session('status') == 'verification-link-sent')
-        <div class="mb-4 font-medium text-sm text-green-600">
-            {{ __('A new verification link has been sent to the email address you provided during registration.') }}
-        </div>
-    @endif
+@section('content')
 
-    <div class="mt-4 flex items-center justify-between">
-        <form method="POST" action="{{ route('verification.send') }}">
-            @csrf
+<div class="auth-page">
 
-            <div>
-                <x-primary-button>
-                    {{ __('Resend Verification Email') }}
-                </x-primary-button>
+    <!-- LEFT SIDE -->
+
+    <div class="auth-left">
+
+        <div class="auth-overlay"></div>
+
+        <div class="auth-content">
+
+            <div class="auth-badge">
+                ✉️ Email Verification
             </div>
-        </form>
 
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
+            
+            <div class="auth-badge">
+           
 
-            <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                {{ __('Log Out') }}
-            </button>
-        </form>
+                <a href="{{ url('/') }}" class="home-btn">
+
+                    <span>
+
+                          🔑 Password Recovery
+
+                    </span>
+
+                </a>
+            </div>
+
+            <h1>
+
+                Verify Your
+                Email Address
+
+            </h1>
+
+            <p>
+
+                One final step before accessing
+                your internship dashboard.
+                Please verify your email address
+                to activate your account.
+
+            </p>
+
+            <div class="auth-stats">
+
+                <div>
+                    <h3>Secure</h3>
+                    <span>Account</span>
+                </div>
+
+                <div>
+                    <h3>Instant</h3>
+                    <span>Access</span>
+                </div>
+
+                <div>
+                    <h3>Verified</h3>
+                    <span>Certificate</span>
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
-</x-guest-layout>
+
+    <!-- RIGHT SIDE -->
+
+    <div class="auth-right">
+
+        <div class="login-card">
+
+            <div class="text-center mb-4">
+
+                <div class="verification-icon">
+
+                    ✉️
+
+                </div>
+
+            </div>
+
+            <div class="login-header text-center">
+
+                <h2>Check Your Inbox</h2>
+
+                <p>
+
+                    We've sent a verification link
+                    to your registered email address.
+
+                </p>
+
+            </div>
+
+            @if (session('status') == 'verification-link-sent')
+
+                <div class="alert alert-success">
+
+                    A new verification link has been
+                    sent successfully.
+
+                </div>
+
+            @endif
+
+            <div class="verification-info">
+
+                Before getting started, please verify
+                your email address by clicking the link
+                we just emailed to you.
+
+            </div>
+
+            <form method="POST"
+                  action="{{ route('verification.send') }}">
+
+                @csrf
+
+                <button type="submit"
+                        class="login-btn">
+
+                    Resend Verification Email
+
+                </button>
+
+            </form>
+
+            <form method="POST"
+                  action="{{ route('logout') }}"
+                  class="mt-3">
+
+                @csrf
+
+                <button type="submit"
+                        class="logout-btn">
+
+                    Logout
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@endsection
