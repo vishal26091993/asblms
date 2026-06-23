@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 22, 2026 at 07:23 AM
--- Server version: 8.3.0
--- PHP Version: 8.3.6
+-- Generation Time: Jun 23, 2026 at 06:26 PM
+-- Server version: 8.4.7
+-- PHP Version: 8.3.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `cache` (
   `expiration` int NOT NULL,
   PRIMARY KEY (`key`),
   KEY `cache_expiration_index` (`expiration`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `cache_locks` (
   `expiration` int NOT NULL,
   PRIMARY KEY (`key`),
   KEY `cache_locks_expiration_index` (`expiration`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `failed_jobs` (
   `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `internship_programs` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `jobs` (
   `created_at` int UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   KEY `jobs_queue_index` (`queue`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `job_batches` (
   `created_at` int NOT NULL,
   `finished_at` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
@@ -151,7 +151,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (2, '0001_01_01_000001_create_cache_table', 1),
 (3, '0001_01_01_000002_create_jobs_table', 1),
 (4, '2026_06_19_154852_create_roles_table', 1),
-(5, '2026_06_19_155120_create_internship_programs_table', 1);
+(5, '2026_06_19_155120_create_internship_programs_table', 1),
+(6, '2026_06_23_154613_create_student_profiles_table', 2),
+(7, '2026_06_23_175439_create_programs_table', 3);
 
 -- --------------------------------------------------------
 
@@ -165,7 +167,44 @@ CREATE TABLE IF NOT EXISTS `password_reset_tokens` (
   `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`email`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `programs`
+--
+
+DROP TABLE IF EXISTS `programs`;
+CREATE TABLE IF NOT EXISTS `programs` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `title` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `thumbnail` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `category` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `level` enum('Beginner','Intermediate','Advanced') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Beginner',
+  `duration_hours` int NOT NULL DEFAULT '0',
+  `total_weeks` int NOT NULL DEFAULT '4',
+  `price` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `status` tinyint NOT NULL DEFAULT '1' COMMENT '1=Active,0=Inactive',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `programs_slug_unique` (`slug`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `programs`
+--
+
+INSERT INTO `programs` (`id`, `title`, `slug`, `description`, `thumbnail`, `category`, `level`, `duration_hours`, `total_weeks`, `price`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Laravel Development', 'laravel-development', 'Learn Laravel Framework, Authentication, CRUD, REST APIs and Admin Panel Development.', NULL, 'Backend Development', 'Intermediate', 60, 8, 0.00, 1, '2026-06-23 18:05:46', '2026-06-23 18:05:46'),
+(2, 'CodeIgniter Development', 'codeigniter-development', 'Build dynamic web applications using CodeIgniter 4, MVC and REST APIs.', NULL, 'Backend Development', 'Beginner', 50, 6, 0.00, 1, '2026-06-23 18:05:46', '2026-06-23 18:05:46'),
+(3, 'React JS Development', 'react-js-development', 'Learn React Components, Hooks, Routing and API Integration.', NULL, 'Frontend Development', 'Intermediate', 70, 8, 0.00, 1, '2026-06-23 18:05:46', '2026-06-23 18:05:46'),
+(4, 'Node JS Development', 'node-js-development', 'Build scalable backend applications using Node.js, Express and MongoDB.', NULL, 'Backend Development', 'Intermediate', 65, 8, 0.00, 1, '2026-06-23 18:05:46', '2026-06-23 18:05:46'),
+(5, 'Frontend Design', 'frontend-design', 'Master HTML, CSS, Bootstrap, Responsive Design and UI Development.', NULL, 'Frontend Development', 'Beginner', 40, 4, 0.00, 1, '2026-06-23 18:05:46', '2026-06-23 18:05:46'),
+(6, 'Python Development', 'python-development', 'Learn Python Programming, Automation, APIs and AI Fundamentals.', NULL, 'Programming', 'Beginner', 80, 10, 0.00, 1, '2026-06-23 18:05:46', '2026-06-23 18:05:46');
 
 -- --------------------------------------------------------
 
@@ -179,7 +218,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -198,15 +237,46 @@ CREATE TABLE IF NOT EXISTS `sessions` (
   PRIMARY KEY (`id`),
   KEY `sessions_user_id_index` (`user_id`),
   KEY `sessions_last_activity_index` (`last_activity`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `sessions`
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('lEj9UxpVRX6qgr94NRNTXIqnJ3O7NKGjVYSpQB35', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoidWoxRzZCd05sOFJWV1cwb3FST0N2RUl5UzhqMklaTGxHTW5KUTZqbSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1781884611),
-('g5Jd0Lpk00Ly3Yj2D14QwTLH2zj3XBSxWOb1gBZu', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiZVJpQmRrSG42T2J2Tk9IOHdybVpnZVd2Zmp0MkJrY1I0clBhUFBtaiI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1781901842);
+('pRqwmnA9uphuEZoAQzaYNCzf0nij1UTY9XoSkdjr', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiNHV0d2hzNjlmUmR2dzBaRzF4TjJKTkV0cHpKZmN2RTZyZEVhaWRXTCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjM6Imh0dHA6Ly9sb2NhbGhvc3QvYXNibG1zIjtzOjU6InJvdXRlIjtOO319', 1782239133);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_profiles`
+--
+
+DROP TABLE IF EXISTS `student_profiles`;
+CREATE TABLE IF NOT EXISTS `student_profiles` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `photo` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `mobile` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `dob` date DEFAULT NULL,
+  `gender` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `college_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `course` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `specialization` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `passing_year` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `student_profiles_user_id_foreign` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `student_profiles`
+--
+
+INSERT INTO `student_profiles` (`id`, `user_id`, `photo`, `mobile`, `dob`, `gender`, `college_name`, `course`, `specialization`, `passing_year`, `address`, `created_at`, `updated_at`) VALUES
+(1, 1, '1782236149.jpeg', '7972835381', '2026-06-01', 'Male', 'Test College', 'MCA', 'computer science', '2018', 'Shree Ganesha home , nilgiri bagh , bali mandir road', '2026-06-23 11:49:55', '2026-06-23 12:05:49');
 
 -- --------------------------------------------------------
 
@@ -226,7 +296,25 @@ CREATE TABLE IF NOT EXISTS `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'Test Student', 'student@test.com', NULL, '$2y$12$wmOdh7JBu/z9z8yNdGh3JeareNtZx5/vMkZ1u5oTFjQCkzkPPNmBe', NULL, '2026-06-22 14:54:24', '2026-06-22 14:54:24'),
+(2, 'vishal pund', 'vishal.pund@en3.ca', NULL, '$2y$12$EqPDgdOMXofu.axN6aY2EOzF2oIqUJJNszQJ5zj1UFDatcmb9kS2q', NULL, '2026-06-22 14:56:54', '2026-06-22 14:56:54');
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `student_profiles`
+--
+ALTER TABLE `student_profiles`
+  ADD CONSTRAINT `student_profiles_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

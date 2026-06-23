@@ -3453,211 +3453,6 @@ SMALL MOBILE
 }
 
 
-/* ===========================
-PROGRAMS MOBILE RESPONSIVE
-=========================== */
-
-@media (max-width: 767px) {
-
-    .programs-section{
-        padding:70px 0;
-    }
-
-    .section-heading{
-        text-align:center;
-        margin-bottom:30px;
-    }
-
-    .section-heading h2{
-        font-size:2rem;
-        line-height:1.3;
-    }
-
-    .section-heading p{
-        font-size:15px;
-        line-height:1.8;
-    }
-
-    .swipe-indicator{
-        text-align:center;
-        margin-bottom:20px;
-        color:#64748B;
-        font-size:14px;
-        font-weight:500;
-    }
-
-    .program-grid{
-
-        display:flex !important;
-
-        flex-wrap:nowrap !important;
-
-        overflow-x:auto;
-
-        gap:18px;
-
-        padding:5px 5px 20px;
-
-        scroll-snap-type:x mandatory;
-
-        -webkit-overflow-scrolling:touch;
-
-        scrollbar-width:none;
-    }
-
-    .program-grid::-webkit-scrollbar{
-        display:none;
-    }
-
-    .program-card{
-
-        width:300px !important;
-
-        min-width:300px !important;
-
-        max-width:300px !important;
-
-        flex:0 0 auto !important;
-
-        scroll-snap-align:center;
-
-        border-radius:24px;
-
-        padding:25px;
-
-        display:flex;
-
-        flex-direction:column;
-
-        align-items:flex-start !important;
-
-        text-align:left !important;
-
-        box-sizing:border-box;
-    }
-
-    .program-card.laravel{
-
-        width:340px !important;
-
-        min-width:340px !important;
-
-        max-width:340px !important;
-    }
-
-    .program-top{
-
-        width:100%;
-    }
-
-    .program-icon{
-
-        width:60px;
-        height:60px;
-
-        display:flex;
-        align-items:center;
-        justify-content:center;
-
-        font-size:24px;
-
-        border-radius:16px;
-    }
-
-    .program-card h3{
-
-        margin-top:18px;
-
-        font-size:22px;
-
-        line-height:1.4;
-
-        width:100%;
-    }
-
-    .program-card p{
-
-        margin-top:12px;
-
-        width:100% !important;
-
-        display:block !important;
-
-        white-space:normal !important;
-
-        word-break:normal !important;
-
-        overflow-wrap:anywhere !important;
-
-        line-height:1.8;
-
-        font-size:14px;
-
-        text-align:left !important;
-    }
-
-    .program-card ul{
-
-        width:100%;
-
-        margin-top:15px;
-
-        padding-left:18px;
-    }
-
-    .program-card ul li{
-
-        font-size:14px;
-
-        margin-bottom:8px;
-
-        white-space:normal !important;
-    }
-
-    .program-card a{
-
-        margin-top:auto;
-
-        display:inline-flex;
-
-        align-items:center;
-
-        gap:8px;
-
-        text-decoration:none;
-    }
-
-}
-
-/* SMALL MOBILE */
-
-@media (max-width:480px){
-
-    .program-card{
-
-        width:280px !important;
-
-        min-width:280px !important;
-
-        max-width:280px !important;
-    }
-
-    .program-card.laravel{
-
-        width:300px !important;
-
-        min-width:300px !important;
-
-        max-width:300px !important;
-    }
-
-    .section-heading h2{
-
-        font-size:1.8rem;
-    }
-
-}
-
 /* ===================================
 CERTIFICATE RESPONSIVE
 =================================== */
@@ -4312,3 +4107,110 @@ FOOTER RESPONSIVE
     }
 
 }
+
+.profile-banner{
+
+    background:
+    linear-gradient(
+    135deg,
+    #fff8ef,
+    #ffffff
+    );
+
+    border-radius:30px;
+
+    padding:30px;
+
+    margin-bottom:25px;
+
+    border:1px solid #ffe3c2;
+}
+
+.profile-card{
+
+    background:white;
+
+    border-radius:30px;
+
+    padding:30px;
+
+    text-align:center;
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,.05);
+}
+
+.profile-photo{
+
+    width:180px;
+
+    height:180px;
+
+    object-fit:cover;
+
+    border-radius:25px;
+
+    margin-bottom:20px;
+}
+
+/* =====================================
+PROGRAM PAGE
+===================================== */
+
+.program-hero{
+    background:#fff;
+    border-radius:28px;
+    padding:40px;
+    margin-bottom:15px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 10px 40px rgba(15,23,42,.06);
+}
+
+.program-hero::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:6px;
+
+    background:linear-gradient(
+        90deg,
+        #ff7b00,
+        #ffb703
+    );
+}
+
+.program-hero h2{
+    font-size:42px;
+    font-weight:800;
+    color:#0f172a;
+    margin-top:15px;
+}
+
+.program-hero p{
+    color:#64748b;
+    font-size:17px;
+    margin-top:10px;
+}
+
+.hero-tag{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+
+    background:linear-gradient(
+        135deg,
+        #ff7b00,
+        #ffb703
+    );
+
+    color:#fff;
+    font-weight:700;
+
+    padding:10px 18px;
+
+    border-radius:50px;
+}
+
