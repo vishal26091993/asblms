@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 23, 2026 at 06:26 PM
+-- Generation Time: Jun 24, 2026 at 08:48 PM
 -- Server version: 8.4.7
 -- PHP Version: 8.3.28
 
@@ -20,6 +20,33 @@ SET time_zone = "+00:00";
 --
 -- Database: `asb_internsphere`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admins`
+--
+
+DROP TABLE IF EXISTS `admins`;
+CREATE TABLE IF NOT EXISTS `admins` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` tinyint NOT NULL DEFAULT '1',
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `admins_email_unique` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `admins`
+--
+
+INSERT INTO `admins` (`id`, `name`, `email`, `password`, `status`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'Super Admin', 'admin@asb.com', '$2y$12$wVYIHirXUTrPE/dVAg9aLOOTlKBeOA2JtT3e0a05eLKFuWoh0taNm', 1, NULL, '2026-06-24 15:06:52', '2026-06-24 15:06:52');
 
 -- --------------------------------------------------------
 
@@ -140,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
@@ -153,7 +180,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (4, '2026_06_19_154852_create_roles_table', 1),
 (5, '2026_06_19_155120_create_internship_programs_table', 1),
 (6, '2026_06_23_154613_create_student_profiles_table', 2),
-(7, '2026_06_23_175439_create_programs_table', 3);
+(7, '2026_06_23_175439_create_programs_table', 3),
+(8, '2026_06_23_175708_create_student_programs_table', 4),
+(9, '2026_06_24_150142_create_admins_table', 4);
 
 -- --------------------------------------------------------
 
@@ -244,7 +273,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('pRqwmnA9uphuEZoAQzaYNCzf0nij1UTY9XoSkdjr', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiNHV0d2hzNjlmUmR2dzBaRzF4TjJKTkV0cHpKZmN2RTZyZEVhaWRXTCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjM6Imh0dHA6Ly9sb2NhbGhvc3QvYXNibG1zIjtzOjU6InJvdXRlIjtOO319', 1782239133);
+('bYk5DdBU0NbLNIPHAfE3gUT50jvfzcjF6A09NHUH', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiS1V1NUxVcXZPQTFGM0ZzMFIzNWJYcUhwVzU4T2FLaU5WVjQ0SU5ONCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mzk6Imh0dHA6Ly9sb2NhbGhvc3QvYXNibG1zL2FkbWluL2Rhc2hib2FyZCI7czo1OiJyb3V0ZSI7czoxNToiYWRtaW4uZGFzaGJvYXJkIjt9czo1MjoibG9naW5fYWRtaW5fNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1782333872);
 
 -- --------------------------------------------------------
 
@@ -277,6 +306,24 @@ CREATE TABLE IF NOT EXISTS `student_profiles` (
 
 INSERT INTO `student_profiles` (`id`, `user_id`, `photo`, `mobile`, `dob`, `gender`, `college_name`, `course`, `specialization`, `passing_year`, `address`, `created_at`, `updated_at`) VALUES
 (1, 1, '1782236149.jpeg', '7972835381', '2026-06-01', 'Male', 'Test College', 'MCA', 'computer science', '2018', 'Shree Ganesha home , nilgiri bagh , bali mandir road', '2026-06-23 11:49:55', '2026-06-23 12:05:49');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_programs`
+--
+
+DROP TABLE IF EXISTS `student_programs`;
+CREATE TABLE IF NOT EXISTS `student_programs` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `program_id` bigint UNSIGNED NOT NULL,
+  `start_date` date DEFAULT NULL,
+  `progress` int NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 

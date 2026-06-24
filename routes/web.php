@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Student\CertificateController;
 use App\Http\Controllers\Student\DashboardController;
 use App\Http\Controllers\Student\ExamController;
@@ -44,6 +46,36 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/certificates',
         [CertificateController::class, 'index'])
         ->name('certificates');
+});
+
+Route::prefix('admin')->group(function () {
+    Route::get(
+        '/',
+        [AdminAuthController::class, 'login']
+    );
+
+    Route::post(
+        '/login',
+        [AdminAuthController::class, 'authenticate']
+    )->name('admin.login');
+});
+
+Route::get('/hash', function () {
+    return bcrypt('123456');
+});
+
+Route::middleware('admin')
+->prefix('admin')
+->group(function () {
+    Route::get(
+        '/dashboard',
+        [AdminDashboardController::class, 'index']
+    )->name('admin.dashboard');
+
+    Route::post(
+        '/logout',
+        [AdminAuthController::class, 'logout']
+    )->name('admin.logout');
 });
 
 require __DIR__.'/auth.php';

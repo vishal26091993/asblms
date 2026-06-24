@@ -19,6 +19,13 @@
         'resources/js/app.js'
     ])
 
+    <style>
+        a.home-btn {
+            text-decoration: none !important;
+            color: white;
+        }
+    </style>
+
 </head>
 
 <body>
