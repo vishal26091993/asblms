@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 24, 2026 at 08:48 PM
+-- Generation Time: Jun 26, 2026 at 08:48 PM
 -- Server version: 8.4.7
 -- PHP Version: 8.3.28
 
@@ -167,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
@@ -182,7 +182,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (6, '2026_06_23_154613_create_student_profiles_table', 2),
 (7, '2026_06_23_175439_create_programs_table', 3),
 (8, '2026_06_23_175708_create_student_programs_table', 4),
-(9, '2026_06_24_150142_create_admins_table', 4);
+(9, '2026_06_24_150142_create_admins_table', 4),
+(10, '2026_06_26_204230_create_study_materials_table', 5);
 
 -- --------------------------------------------------------
 
@@ -273,7 +274,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('bYk5DdBU0NbLNIPHAfE3gUT50jvfzcjF6A09NHUH', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiS1V1NUxVcXZPQTFGM0ZzMFIzNWJYcUhwVzU4T2FLaU5WVjQ0SU5ONCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mzk6Imh0dHA6Ly9sb2NhbGhvc3QvYXNibG1zL2FkbWluL2Rhc2hib2FyZCI7czo1OiJyb3V0ZSI7czoxNToiYWRtaW4uZGFzaGJvYXJkIjt9czo1MjoibG9naW5fYWRtaW5fNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1782333872);
+('lqxirvPLCv9f2EDQS4CkWK6waW6AgVc9sjH9pJ6Q', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiaUlvcTdXWEt4SnpiRGFTdWhpeDE1S21NZGtmRnY4cXBYYVMzZUdoTiI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mzk6Imh0dHA6Ly9sb2NhbGhvc3QvYXNibG1zL2FkbWluL21hdGVyaWFscyI7czo1OiJyb3V0ZSI7czoxNToiYWRtaW4ubWF0ZXJpYWxzIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MjoibG9naW5fYWRtaW5fNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1782506872);
 
 -- --------------------------------------------------------
 
@@ -328,6 +329,30 @@ CREATE TABLE IF NOT EXISTS `student_programs` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `study_materials`
+--
+
+DROP TABLE IF EXISTS `study_materials`;
+CREATE TABLE IF NOT EXISTS `study_materials` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `program_id` bigint UNSIGNED DEFAULT NULL,
+  `title` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `type` enum('PDF','DOC','EXCEL','PPT','VIDEO','YOUTUBE','UDEMY') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `file` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `video_url` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `week_no` int NOT NULL DEFAULT '1',
+  `sort_order` int NOT NULL DEFAULT '0',
+  `status` tinyint NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `study_materials_program_id_foreign` (`program_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -362,6 +387,12 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `re
 --
 ALTER TABLE `student_profiles`
   ADD CONSTRAINT `student_profiles_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `study_materials`
+--
+ALTER TABLE `study_materials`
+  ADD CONSTRAINT `study_materials_program_id_foreign` FOREIGN KEY (`program_id`) REFERENCES `programs` (`id`) ON DELETE SET NULL;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
