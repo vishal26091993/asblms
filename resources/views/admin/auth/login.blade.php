@@ -406,7 +406,7 @@ body{
             @endif
 
             <form method="POST"
-                  action="{{ route('admin.login') }}">
+                  action="{{ route('admin.authenticate') }}">
 
                 @csrf
 
